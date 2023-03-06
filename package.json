@@ -1,0 +1,28 @@
+{
+  "name": "globtech-backend",
+  "version": "1.0.0",
+  "description": "Globtech es una organización ecuatoriana de larga trayectoria en el sector geoespacial, especialistas en servicios de consultoría, productos y servicios satelitales, geoservicios web, venta y desarrollo de software, servicios con drone y LiDAR, empresa líder en el mercado de la geoinformación.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Afkerian/Globtech-BackEnd.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Afkerian/Globtech-BackEnd/issues"
+  },
+  "homepage": "https://github.com/Afkerian/Globtech-BackEnd#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  }
+}
