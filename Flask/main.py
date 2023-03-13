@@ -1,13 +1,16 @@
-from flask import Flask, request
+from flask import Flask, request, send_file
 from flask import render_template
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_pymongo import PyMongo
 from bson import json_util
 from flask_cors import CORS
+import os
+from uuid import uuid4
 
+from image import proces_image
 from usuarios import registrar_usuario, login, editar_password, eliminar_usuario
-from noticias import get_noticias
+from noticias import get_noticias, get_noticia, eliminar_noticia, set_noticia
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
 app.config['MONGO_URI'] = 'mongodb+srv://Admin:Globtech@sciencecodes.kbi2kns.mongodb.net/Globtech'
@@ -92,7 +95,7 @@ def cambiar_password():
 ###########################################################################################
 
 
-######################
+########## OBTENER NOTICIAS - OBTENER NOTICIA - AGREGAR NOTICIA - ELIMINAR NOTICIA ###################
 @app.route('APINoticias', methods=['GET'])
 def obtener_noticias():
     db = mongo.db
@@ -101,8 +104,50 @@ def obtener_noticias():
 
     return resultado
 
+@app.route('APINoticia', methods=['GET'])
+def obtener_noticia():
+    db = mongo.db
 
+    id = request.json['id']
+    resultado = get_noticia(id, db)
+    
+    if resultado is False:
+        return {'message':'La noticia no existe en la Base de Datos',
+                    'flag': False}
+    else:
+        return resultado
 
+@app.route('APIAgregarNoticia', methods=['POST'])
+def agregar_noticia():
+    db = mongo.db
+    titulo = request.json['titulo']
+    cuerpo = request.json['cuerpo']
+    image = request.files['image']
+    
+    image = proces_image(image)
+    
+    if set_noticia(titulo, cuerpo, image, db):
+        return {'message':'Noticia Registrada Exitosamente',
+                    'flag': True}
+    else:
+        return {'message':'La Noticias no se pudo registrar',
+                    'flag': False}
+
+@app.route('APIEliminarNoticia', methods=['DELETE'])
+def del_noticia():
+    db = mongo.db
+    
+    id = request.json['id']
+    
+    if eliminar_noticia(id, db):
+        return {'message':'Noticia Eliminada Exitosamente',
+                    'flag': True}
+    else:
+        return {'message':'Error al Eliminar',
+                    'flag': False}
+    
 ###########################################################################################
+
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1',debug=True, port=5000)
