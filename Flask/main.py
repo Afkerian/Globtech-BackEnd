@@ -55,7 +55,7 @@ def ingresar_usuario():
         return {'message':'El usuario ya existe!',
                     'flag': False}
 
-@app.route('APIEliminarUsuario', methods=['DELETE'])
+@app.route('/APIEliminarUsuario', methods=['DELETE'])
 def eliminar_administrador():
     db = mongo.db
 
@@ -74,7 +74,7 @@ def eliminar_administrador():
                     'flag': False}
 
 
-@app.route('APICambiarPassword', methods=['PUT'])
+@app.route('/APICambiarPassword', methods=['PUT'])
 def cambiar_password():
     db = mongo.db
 
@@ -96,7 +96,7 @@ def cambiar_password():
 
 
 ########## OBTENER NOTICIAS - OBTENER NOTICIA - AGREGAR NOTICIA - ELIMINAR NOTICIA ###################
-@app.route('APINoticias', methods=['GET'])
+@app.route('/APINoticias', methods=['GET'])
 def obtener_noticias():
     db = mongo.db
 
@@ -104,7 +104,7 @@ def obtener_noticias():
 
     return resultado
 
-@app.route('APINoticia', methods=['GET'])
+@app.route('/APINoticia', methods=['GET'])
 def obtener_noticia():
     db = mongo.db
 
@@ -117,7 +117,7 @@ def obtener_noticia():
     else:
         return resultado
 
-@app.route('APIAgregarNoticia', methods=['POST'])
+@app.route('/APIAgregarNoticia', methods=['POST'])
 def agregar_noticia():
     db = mongo.db
     titulo = request.json['titulo']
@@ -133,7 +133,7 @@ def agregar_noticia():
         return {'message':'La Noticias no se pudo registrar',
                     'flag': False}
 
-@app.route('APIEliminarNoticia', methods=['DELETE'])
+@app.route('/APIEliminarNoticia', methods=['DELETE'])
 def del_noticia():
     db = mongo.db
     
