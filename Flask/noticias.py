@@ -63,7 +63,7 @@ def get_noticia(id, db):
     resultado = noticias.find_one({'id': id})
     
     if resultado is not None:
-        # El usuario existe en la base de datos
+        # La noticia existe en la base de datos
         print('La noticia existe en la base de datos')
         return resultado
     else:

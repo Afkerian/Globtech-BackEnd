@@ -11,6 +11,7 @@ from uuid import uuid4
 from image import proces_image
 from usuarios import registrar_usuario, login, editar_password, eliminar_usuario
 from noticias import get_noticias, get_noticia, eliminar_noticia, set_noticia
+from metricas import actualizar_metricas, obtener_metricas
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
 app.config['MONGO_URI'] = 'mongodb+srv://Admin:Globtech@sciencecodes.kbi2kns.mongodb.net/Globtech'
@@ -148,6 +149,38 @@ def del_noticia():
     
 ###########################################################################################
 
+######################## ACTUALIZAR METRICAS - OBTENER METRICAS ##########################
+@app.route('/APIActualizarMetricas', methods=['PUT'])
+def update_metricas():
+    db = mongo.db
+    
+    id = request.json['id']
+    proyectos = request.json['proyectos']
+    clientes = request.json['clientes']
+    km = request.json['km']
+    socios = request.json['socios']
+    convenios = request.json['convenios']
+    ventas = request.json['ventas']
+    proformas = request.json['proformas']
+    
+    if actualizar_metricas(id, proyectos, clientes, km, socios, convenios, ventas, proformas ,db):
+        return {'message':'Metrica Actualizada Exitosamente',
+                        'flag': True}
+    else:
+        return {'message':'Error al Actualizar Metrica',
+                        'flag': False}
+
+@app.route('/APIObtenerMetricas', methods=['GET'])
+def get_metricas():
+    db = mongo.db
+    
+    metrica = obtener_metricas(id, db)
+    if metrica is False:
+        return {'message':'Error al recuperar Metrica',
+                        'flag': False}
+    else: 
+        return metrica
+############################################################################################
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1',debug=True, port=5000)
