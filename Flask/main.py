@@ -10,7 +10,7 @@ from usuarios import registrar_usuario, login, editar_password, eliminar_usuario
 from noticias import get_noticias
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
-app.config['MONGO_URI'] = 'mongodb+srv://isaacmateosv:mongodv@testmongo.1uoiaiv.mongodb.net/horizonbankdb'
+app.config['MONGO_URI'] = 'mongodb+srv://Admin:Globtech@sciencecodes.kbi2kns.mongodb.net/Globtech'
 
 mongo = PyMongo(app)
 
