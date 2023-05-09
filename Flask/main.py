@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, jsonify, request, send_file
 from flask import render_template
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,6 +12,10 @@ from image import proces_image
 from usuarios import registrar_usuario, login, editar_password, eliminar_usuario
 from noticias import get_noticias, get_noticia, eliminar_noticia, set_noticia
 from metricas import actualizar_metricas, obtener_metricas
+from drones import get_drones
+
+
+
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
 app.config['MONGO_URI'] = 'mongodb+srv://Admin:Globtech@sciencecodes.kbi2kns.mongodb.net/Globtech'
@@ -181,6 +185,63 @@ def get_metricas():
     else: 
         return metrica
 ############################################################################################
+
+########################### OBTENER IMAGES DRON ############################################
+@app.route('/APIObtenerDrones', methods=['GET'])
+def get_drones():
+    db = mongo.db
+
+    drones = db.drones.find()
+
+    resultado = []
+
+    # Iterar a través de los usuarios y agregarlos a la lista de resultados
+    for drone in drones:
+        resultado.append({
+            'image': drone['image']
+        })
+
+    # Devolver la lista de resultados como JSON
+    return {'drones': resultado}
+    
+########################### OBTENER IMAGES GEOSERVICIO ############################################
+@app.route('/APIObtenerGeoservicios', methods=['GET'])
+def get_geoservicios():
+    db = mongo.db
+
+    geoservicios = db.geoservicios.find()
+
+    resultado = []
+
+    # Iterar a través de los usuarios y agregarlos a la lista de resultados
+    for geoservicio in geoservicios:
+        resultado.append({
+            'image': geoservicio['image']
+        })
+
+    # Devolver la lista de resultados como JSON
+    return {'geoservicios': resultado}
+
+########################### OBTENER IMAGES GEOSERVICIO ############################################
+@app.route('/APIObtenerSatelites', methods=['GET'])
+def get_satelites():
+    db = mongo.db
+
+    satelites = db.satelites.find()
+
+    resultado = []
+
+    # Iterar a través de los usuarios y agregarlos a la lista de resultados
+    for satelite in satelites:
+        resultado.append({
+            'image': satelite['image']
+        })
+
+    # Devolver la lista de resultados como JSON
+    return {'satelites': resultado}
+
+
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1',debug=True, port=5000)
